@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Styled from "styled-components";
 
-function Form() {
+function Form({ sendCredentials }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleChange = name => e => {
@@ -13,7 +13,7 @@ function Form() {
   };
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(username, "\n", password);
+    sendCredentials(username, password);
   };
   return (
     <FormContainer>
