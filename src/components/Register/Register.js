@@ -1,21 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Styled from "styled-components";
-import Form from "../Login/Form";
-import Axios from "axios";
+import Form from "./RegisterForm";
+import axios from "axios";
+import { axiosWithAuth } from "../../utils/AxiosWithAuth";
 
-function Register() {
-  const sendCredentials = async (username, pass) => {
+function Register(props) {
+  const sendCredentials = async (username, email, password1, password2) => {
     try {
-      console.log("Register.js", username, pass);
-      const url = "https://bw-django-game.herokuapp.com/api/registration/";
-      const res = await Axios.post(url, { username: username, password: pass });
-      localStorage.setItem("token", res.data.token);
+      let user;
+      if (email !== "") {
+        user = { username, email, password1, password2 };
+      }
+      user = { username, password1, password2 };
+      const res = await axiosWithAuth().post(`/registration/`, { ...user });
+      axios.defaults.headers.common["Authorization"] = `Token ${res.data.key}`;
+      localStorage.setItem("token", res.data.key);
+      props.history.push("/game");
     } catch (error) {
-      console.log("err", error.message);
+      return error;
     }
   };
-  
+
   return (
     <RegisterContainer>
       <h1>Register Page</h1>

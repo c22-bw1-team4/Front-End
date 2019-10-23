@@ -1,19 +1,31 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import Form from "./Form";
+import axios from "axios";
+import { Link, Redirect } from "react-router-dom";
+import Form from "./LoginForm";
 import Styled from "styled-components";
-import Axios from "axios";
+import { axiosWithAuth } from "../../utils/AxiosWithAuth";
 
-function Login() {
-  const sendCredentials = async (username, pass) => {
+function Login(props) {
+  const sendCredentials = async (username, email, password) => {
     try {
-      const url = "https://bw-django-game.herokuapp.com/api/login/";
-      const res = await Axios.post(url, { username: username, password: pass });
-      localStorage.setItem("token", res.data.token);
+      let user;
+      if (email !== "") {
+        user = { username, email, password };
+      }
+      user = { username, password };
+      const res = await axios.post("https://bw-django-game.herokuapp.com/api/login/", {...user});
+      if(res){
+        axios.defaults.headers.common["Authorization"] = `Token ${res.data.key}`;
+        localStorage.setItem("token", res.data.key);
+        props.history.push("/game");
+      }else{
+        console.log("error no res!!")
+      }
     } catch (error) {
-      console.log("err", error.message);
+      return error;
     }
   };
+
   return (
     <LoginPage>
       <h1>Login Page</h1>

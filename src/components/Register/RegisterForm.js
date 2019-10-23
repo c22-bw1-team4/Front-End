@@ -1,19 +1,15 @@
 import React, { useState } from "react";
 import Styled from "styled-components";
 
-function Form({ sendCredentials }) {
+function RegisterForm({ sendCredentials }) {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const handleChange = name => e => {
-    if (name === "username") {
-      setUsername(e.target.value);
-    } else {
-      setPassword(e.target.value);
-    }
-  };
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [email, setEmail] = useState("");
+
   const handleSubmit = e => {
     e.preventDefault();
-    sendCredentials(username, password);
+    sendCredentials(username, email, password1, password2);
   };
   return (
     <FormContainer>
@@ -21,13 +17,26 @@ function Form({ sendCredentials }) {
         <input
           type="text"
           placeholder="Username"
-          onChange={handleChange("username")}
+          onChange={e => setUsername(e.target.value)}
           name="username"
         />
         <input
-          type="password"
+          type="email"
+          placeholder="Email"
+          onChange={e => setEmail(e.target.value)}
+          name="email"
+        />
+        <input
+          type="text"
           placeholder="Password"
-          onChange={handleChange("password")}
+          name="password1"
+          onChange={e => setPassword1(e.target.value)}
+        />
+        <input
+          type="text"
+          name="password2"
+          placeholder="Confirm Password"
+          onChange={e => setPassword2(e.target.value)}
         />
         <input type="submit" value="Submit" />
       </form>
@@ -54,4 +63,4 @@ const FormContainer = Styled.div`
     }
   }
 `;
-export default Form;
+export default RegisterForm;

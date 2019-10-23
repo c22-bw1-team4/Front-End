@@ -1,63 +1,59 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import {axiosWithAuth} from '../../utils/AxiosWithAuth'
 
 function Maze() {
-    const [rooms, setRooms] = useState([]) 
-    const [graph, setGraph] = useState({})
+    const [details, setDetails] = useState({}) 
+    const [rooms, setRooms] = useState([])
+    const [error, setError] = useState('')
     const [currentRoom, setCurrentRoom] = useState({})
+    useEffect(() => {
+        axios
+            .get('https://bw-django-game.herokuapp.com/api/adv/init')
+            .then(res => {
+                console.log("init", res);
+                setDetails(res.data);
+                setCurrentRoom(res.data.title, res.data.description);
+                console.log(details);
+            });
+    }, []);
 
     useEffect(() => {
-        sendCredentials();
-    }, [])
-
-    const sendCredentials = async () => {
-        try {
-            const url = "https://bw-django-game.herokuapp.com/api/adv/rooms";
-            const res = await axios.get(url);
-            setRooms(res.data.rooms)
-            console.log(res.data.rooms)
-        } catch (error) {
-            console.log("err", error.message);
-        }
-    };
-
-    const localGraph = (id, coordinates, exits) => {
-        let graphObj = Object.assign({}, graph);
-        if (!graph[id]) {
-            let map = [];
-            let roomExits = {};
-            map.push(coordinates);
-            exits.forEach(exit => { roomExits[exit] = '?' });
-            map.push(roomExits);
-
-            graphObj = { ...graphObj, [id]: map };
-
-        };
-        localStorage.setItem('map', JSON.stringify(graphObj));
-        return graphObj;
-    }
+        axios
+            .get("https://bw-django-game.herokuapp.com/api/adv/rooms")
+            .then(res => {
+                console.log("init", res);
+                setRooms(res.data);
+                console.log(details);
+            });
+    }, []);
 
     const move = (direction) => {
         let explore = { 'direction': direction }
         axios
             .post('https://bw-django-game.herokuapp.com/api/adv/move', explore)
-            .then(response => {
-                let graph = localGraph(response.data.room_id, response.data.coordinates, response.data.exits);
-                setCurrentRoom({ currRoom: response.data, graph });
-                console.log('move!!!!!:', currentRoom);
-            }).catch(error => console.log(error));
+            .then(res => {
+                if(res.data.error_msg){
+                    setError(res.data.error_msg)
+                }else{
+                    setError('')
+                }
+                console.log("Move", res)
+                setDetails({title: res.data.title, description:res.data.description})
+            })
     }
     return (
         <>
-        <div className="menu">
-            <p>Room ID:<strong>{currentRoom.id}</strong></p>
-            <p>Room Title:<strong>{currentRoom.title}</strong></p>
-            <p>Room description:<strong>{currentRoom.description}</strong></p>
+        <div>
+            <p>Room Title:<strong>{details.title}</strong></p>
+            <p>Room description:<strong>{details.description}</strong></p>
         </div>
         <button onClick={() => move('w')}>West</button>
         <button onClick={() => move('n')}>North</button>
         <button onClick={() => move('s')}>South</button>
         <button onClick={() => move('e')}>East</button> 
+
+        {error ? <span>{error}</span> : ''}
         </>
     );
 }
