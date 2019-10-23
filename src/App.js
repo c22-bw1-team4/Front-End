@@ -5,6 +5,7 @@ import Home from "./components/Authentication/Home";
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
+import Maze from './components/Maze/Maze';
 import "./App.css";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <header>
         <Navbar />
       </header>
+      <Maze/>
       <Switch>
         <Main>
           <Route path="/">

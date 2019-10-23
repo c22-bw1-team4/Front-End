@@ -7,7 +7,7 @@ import Axios from "axios";
 function Login() {
   const sendCredentials = async (username, pass) => {
     try {
-      const url = "http://localhost:4000/login";
+      const url = "https://bw-django-game.herokuapp.com/api/login/";
       const res = await Axios.post(url, { username: username, password: pass });
       localStorage.setItem("token", res.data.token);
     } catch (error) {
@@ -27,7 +27,7 @@ function Login() {
 }
 
 const LoginPage = Styled.div`
-    text-align: center
+    text-align: center;
 `;
 
 export default Login;

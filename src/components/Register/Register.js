@@ -8,13 +8,14 @@ function Register() {
   const sendCredentials = async (username, pass) => {
     try {
       console.log("Register.js", username, pass);
-      const url = "http://localhost:4000/login";
+      const url = "https://bw-django-game.herokuapp.com/api/registration/";
       const res = await Axios.post(url, { username: username, password: pass });
       localStorage.setItem("token", res.data.token);
     } catch (error) {
       console.log("err", error.message);
     }
   };
+  
   return (
     <RegisterContainer>
       <h1>Register Page</h1>
@@ -28,7 +29,7 @@ function Register() {
 }
 
 const RegisterContainer = Styled.div`
-  text-align: center
+  text-align: center;
 `;
 
 export default Register;
