@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
 // import Map from "./components/Map/Map";
 import Register from "./components/Register/Register";
-import Maze from './components/Maze/Maze';
+import Maze from "./components/Maze/Maze";
 import "./App.css";
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
       </header>
       <Switch>
         <Main>
-          <Route path="/">
+          <Route exact path="/">
             <Home />
           </Route>
           <Route
@@ -27,7 +27,7 @@ function App() {
             render={props => <Register {...props} />}
           />
           <Route exact path="/login" render={props => <Login {...props} />} />
-  {/*<Route exact path="/game" render={props => <Map {...props} />} />*/}
+          {/*<Route exact path="/game" render={props => <Map {...props} />} />*/}
           <Route exact path="/game" component={Maze} />
         </Main>
       </Switch>
@@ -42,7 +42,8 @@ const AppContainer = Styled.div`
 `;
 
 const Main = Styled.div`
-  max-width: 1000px;
+  /* width: 1000px; */
+  max-width: 1200px;
   margin: 0 auto;
 `;
 export default App;

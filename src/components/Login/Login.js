@@ -13,13 +13,16 @@ function Login(props) {
         user = { username, email, password };
       }
       user = { username, password };
-      const res = await axios.post("https://bw-django-game.herokuapp.com/api/login/", {...user});
-      if(res){
-        axios.defaults.headers.common["Authorization"] = `Token ${res.data.key}`;
+      const res = await axios.post(
+        "https://bw-django-game.herokuapp.com/api/login/",
+        { ...user }
+      );
+      if (res) {
+        // axios.defaults.headers.common["Authorization"] = `Token ${res.data.key}`;
         localStorage.setItem("token", res.data.key);
         props.history.push("/game");
-      }else{
-        console.log("error no res!!")
+      } else {
+        console.log("error no res!!");
       }
     } catch (error) {
       return error;
