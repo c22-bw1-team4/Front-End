@@ -27,13 +27,13 @@ function RegisterForm({ sendCredentials }) {
           name="email"
         />
         <input
-          type="text"
+          type="password"
           placeholder="Password"
           name="password1"
           onChange={e => setPassword1(e.target.value)}
         />
         <input
-          type="text"
+          type="password"
           name="password2"
           placeholder="Confirm Password"
           onChange={e => setPassword2(e.target.value)}

@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Styled from "styled-components";
 import { Link } from "react-router-dom";
 
 function Navbar() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setLoggedIn(false);
+    } else {
+      setLoggedIn(true);
+    }
+  }, []);
+  
   return (
     <Nav>
       <h1>
@@ -10,7 +20,11 @@ function Navbar() {
       </h1>
       <ul>
         <li>
-          <Link to="/login">Login</Link>
+          {loggedIn === false ? (
+            <Link to="/login">Login</Link>
+          ) : (
+            <Link to="/login" onClick={()=> localStorage.clear()}>Logout</Link>
+          )}
         </li>
         <li>
           <Link to="/register">Register</Link>
@@ -29,12 +43,13 @@ const Nav = Styled.div`
     width: 100%;
     margin: 0 auto;
     background-color: #282c34;
-    color: white;
     font-size: 18px;
-    h1 {
-        margin:0;
-        font-size: 24px;
-        padding: 10px
+    h1, a {
+      margin:0;
+      font-size: 24px;
+      padding: 10px;
+      color: #ffffff;
+      text-decoration: none
     };
     ul {
         display: flex;

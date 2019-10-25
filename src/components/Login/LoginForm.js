@@ -8,7 +8,6 @@ function LoginForm({ sendCredentials }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log("password", password);
     sendCredentials(username, email, password);
   };
   return (
