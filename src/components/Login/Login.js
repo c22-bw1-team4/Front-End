@@ -1,9 +1,8 @@
 import React from "react";
 import axios from "axios";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Form from "./LoginForm";
 import Styled from "styled-components";
-import { axiosWithAuth } from "../../utils/AxiosWithAuth";
 
 function Login(props) {
   const sendCredentials = async (username, email, password) => {
@@ -18,7 +17,6 @@ function Login(props) {
         { ...user }
       );
       if (res) {
-        // axios.defaults.headers.common["Authorization"] = `Token ${res.data.key}`;
         localStorage.setItem("token", res.data.key);
         props.history.push("/game");
       } else {

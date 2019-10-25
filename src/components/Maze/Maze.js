@@ -110,18 +110,18 @@ const renderNode = (node, array2d, x, y, obj)=>{
             
             return array2d.map(a=>{
                 return (
-                <div style={{display: 'flex', width: '100%'}} >
-                    {a.map((rm, i)=>{
-                       return <div
-                        className={`room-cell ${
-                        // @ts-ignore
-                        rm && rm.title === currentRoom.title ? "current-room" : ""} ${!rm ? 'no-room': ''}`}
-                        key={i}
-                        >
-                            {/* {rm ? rm.id : ''} */}
-                        </div>
-                    })}
-                </div>
+                    <div style={{display: 'flex', width: '100%'}} className="inner-map" >
+                        {a.map((rm, i)=>{
+                          return <div
+                          className={`room-cell ${
+                            // @ts-ignore
+                            rm && rm.title === currentRoom.title ? "current-room" : ""} ${!rm ? 'no-room': ''}`}
+                            key={i}
+                            >
+                                {/* {rm ? rm.id : ''} */}
+                            </div>
+                        })}
+                    </div> 
                 )
                 })
 
@@ -181,8 +181,8 @@ const MapContainer = Styled.div`
             }
         }
         .map{
-            height: 100%;
-            width: 40%;
+            height: 50%;
+            width: 50%;
             margin: 0 auto;
             background-color: #515151;
             display: flex;
